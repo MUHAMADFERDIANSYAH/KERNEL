@@ -26,3 +26,31 @@ workflows:
   cooking:
     jobs:
       - KERNEL
+version: 2.1
+jobs:
+  KERNEL:
+   docker:
+      - image: hendramanu/docker-image:kernel
+   steps:
+      - run:
+          name: Cloning source
+          no_output_timeout: 20m
+          command: |
+            cd ~
+            git clone https://github.com/kumajaya/android_kernel_xiaomi_msm8992 kernel
+            
+      - run:
+          name: KERNEL
+          no_output_timeout: 20m
+          command: |
+            cd ~/kernel
+            export ARCH=arm64
+            make clean && make mrproper
+            make blackhawk_libra_defconfig
+            make CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- -j$(nproc --all)
+
+workflows:
+  version: 2.1
+  cooking:
+    jobs:
+      - KERNEL
