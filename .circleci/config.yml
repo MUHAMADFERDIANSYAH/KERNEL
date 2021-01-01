@@ -18,7 +18,7 @@ jobs:
             cd ~/kernel
             export ARCH=arm64
             make clean && make mrproper
-            make libra_defconfig
+            make blackhawk_libra_defconfig
             make CC=clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-android- -j$(nproc --all)
 
 workflows:
